@@ -1,0 +1,22 @@
+from app.extensions import db
+from app.models import Customer, Mechanic, ServiceTicket
+from tests.base import ApiTestCase
+
+
+class MechanicQueryTests(ApiTestCase):
+    def test_ranked_mechanics_orders_by_ticket_count(self):
+        second = Mechanic(name="Busy Mechanic", email="busy@test.com", specialty="Brakes")
+        second.set_password("password123")
+        customer = db.session.get(Customer, self.customer_id)
+        ticket_one = ServiceTicket(description="Job one", status="Open", customer=customer)
+        ticket_two = ServiceTicket(description="Job two", status="Open", customer=customer)
+        ticket_one.mechanics.append(second)
+        ticket_two.mechanics.append(second)
+        db.session.add_all([second, ticket_one, ticket_two])
+        db.session.commit()
+
+        response = self.client.get("/mechanics/ranked")
+        self.assertEqual(response.status_code, 200)
+        ranking = response.get_json()
+        self.assertEqual(ranking[0]["email"], "busy@test.com")
+        self.assertEqual(ranking[0]["ticket_count"], 2)

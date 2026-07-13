@@ -1,0 +1,10 @@
+"""Production WSGI entry point used by Gunicorn on Render.
+
+Run in production with:
+    gunicorn flask_app:app
+"""
+
+from app import create_app
+from config import ProductionConfig
+
+app = create_app(ProductionConfig)

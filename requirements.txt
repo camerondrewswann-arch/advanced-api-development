@@ -1,0 +1,14 @@
+# Copy to .env for reference only. Never commit your real .env file.
+APP_ENV=development
+FLASK_DEBUG=1
+DATABASE_URL=sqlite:///instance/mechanic_shop.db
+SECRET_KEY=replace-with-a-long-random-secret
+JWT_SECRET_KEY=replace-with-a-different-long-random-secret
+JWT_ALGORITHM=HS256
+JWT_EXPIRES_HOURS=24
+CACHE_TYPE=SimpleCache
+CACHE_DEFAULT_TIMEOUT=60
+RATELIMIT_STORAGE_URI=memory://
+AUTO_CREATE_DB=1
+SWAGGER_HOST=127.0.0.1:5000
+SWAGGER_SCHEMES=http
